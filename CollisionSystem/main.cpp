@@ -33,7 +33,7 @@ int main(void)
 	}
 
 
-	for (int f2 = 0; f2 < 10; f2++)
+	for (int f2 = 0; f2 < 100; f2++)
 	{
 		auto body2 = CSBody::createShared(CSVec2(0.f, 0.f));
 		body2->addShape(CSCircle::createShared(CSVec2(0.f, 0.f), 10.f));
