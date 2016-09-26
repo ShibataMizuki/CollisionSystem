@@ -61,6 +61,8 @@ public:
 	コンストラクタ,デストラクタ
 	===============================*/
 public:
+	AABB() = default;
+
 	//! @param centerPos 中心座標
 	//! @param width 幅
 	//! @param height 高さ

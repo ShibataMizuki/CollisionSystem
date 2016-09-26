@@ -14,3 +14,8 @@ const CSVec2 & CSShape::getPosition() const
 {
 	return m_position;
 }
+
+const AABB & CSShape::getAABB() const
+{
+	return m_aabb;
+}

@@ -63,6 +63,8 @@ const std::list<std::shared_ptr<CSHitCallback>>& CSWorld::getCallbackList() cons
 
 bool CSWorld::isCollision(CSBody * bodyA, CSBody * bodyB)
 {
+	if (!bodyA->getAABB().isIntersect(bodyB->getAABB()))return false;
+
 	auto& listA = bodyA->getShapeList();
 	auto& listB = bodyB->getShapeList();
 
@@ -90,6 +92,7 @@ void CSWorld::executeCollision()
 			{
 				for (auto& bodyB : m_bodyMap[callback->getCollisionGroupB()])
 				{
+					if (bodyA == bodyB)continue;
 					if (isCollision(bodyA.get(), bodyB.get()))
 					{
 						callback->HitBegin(bodyA, bodyB);

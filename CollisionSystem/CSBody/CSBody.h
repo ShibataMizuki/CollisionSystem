@@ -91,6 +91,11 @@ public:
 	//! スマートポインタ作成
 	static std::shared_ptr<CSBody> createShared(const CSVec2& pos);
 	static std::shared_ptr<CSBody> createShared();
+
+	//! AABB
+	AABB m_aabb;
+	//! @brief AABBを取得
+	const AABB& getAABB()const;
 };
 
 template<class T>

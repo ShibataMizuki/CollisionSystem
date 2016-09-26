@@ -1,12 +1,18 @@
 #include "CollisionDetection.h"
 #include"CSCircle/CSCircle.h"
 #include"CSPolygon/CSPolygon.h"
+#include<iostream>
 
 bool CircleToCircle(CSCircle* shapeA,CSCircle* shapeB, const CSVec2& posA, const CSVec2& posB)
 {
 	float x = posA.x - posB.x;
 	float y = posA.y - posB.y;
 	float r = shapeA->getRadius() + shapeB->getRadius();
+	for (int f1 = 0; f1 < 30; f1++)
+	{
+		auto m = new int();
+		delete m;
+	}
 	return x*x + y*y <= r*r;
 }
 bool CircleToPolygon(CSCircle* circle, CSPolygon* polygon, const CSVec2& posA, const CSVec2& posB)
@@ -36,6 +42,5 @@ bool CollisionDetection(CSShape* shapeA,CSShape* shapeB, const CSVec2 & posA, co
 	//‘½ŠpŒ`‘Î‘½ŠpŒ`‚Ì”»’è
 	if (typeid(*shapeA) == typeid(CSPolygon) && typeid(*shapeB) == typeid(CSPolygon))
 		return PolygonToPolygon(dynamic_cast<CSPolygon*>(shapeA), dynamic_cast<CSPolygon*>(shapeB), posA, posB);
-
 	return false;
 }

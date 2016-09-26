@@ -10,11 +10,13 @@ CSCircle::CSCircle() :
 CSCircle::CSCircle(float radius) :
 	m_radius(radius)
 {
+	m_aabb = AABB(CSVec2(-radius, -radius), CSVec2(radius, radius));
 }
 
 CSCircle::CSCircle(const CSVec2 & pos, float radius) :
 	CSShape(pos), m_radius(radius)
 {
+	m_aabb = AABB(pos, radius, radius);
 }
 
 void CSCircle::setRadius(float radius)

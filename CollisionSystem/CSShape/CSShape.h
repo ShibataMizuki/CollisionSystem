@@ -1,12 +1,15 @@
 #pragma once
 
 #include"../CSVec2/CSVec2.h"
+#include"AABB/AABB.h"
 
 class CSShape
 {
 protected:
 	//! À•W
 	CSVec2 m_position;
+	//! AABB
+	AABB m_aabb;
 
 public:
 	/*==============================
@@ -26,4 +29,5 @@ public:
 
 	//! @brief }Œ`‚ğ“à•ï‚·‚éAABB‚ğæ“¾
 	//! @return AABB
+	const AABB& getAABB()const;
 };

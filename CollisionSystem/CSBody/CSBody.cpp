@@ -28,6 +28,8 @@ float CSBody::getAngle() const
 void CSBody::addShape(const std::shared_ptr<CSShape>& pShape)
 {
 	m_shapeList.push_back(pShape);
+	m_aabb = pShape->getAABB();
+	m_aabb.setCenterPosition(m_aabb.getCenterPosition() + m_pos);
 }
 
 const std::list<std::shared_ptr<CSShape>>& CSBody::getShapeList() const
@@ -85,4 +87,9 @@ std::shared_ptr<CSBody> CSBody::createShared(const CSVec2 & pos)
 std::shared_ptr<CSBody> CSBody::createShared()
 {
 	return std::make_shared<CSBody>();
+}
+
+const AABB & CSBody::getAABB() const
+{
+	return m_aabb;
 }

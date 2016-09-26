@@ -9,6 +9,7 @@
 #include<list>
 
 #include<chrono>
+#include<random>
 
 enum OBJ_TYPE
 {
@@ -19,53 +20,41 @@ enum OBJ_TYPE
 using namespace std;
 int main(void)
 {
-
-	AABB aabb1 = AABB(CSVec2(0.f, 0.f), CSVec2(10.f, 10.f));
-	AABB aabb2 = AABB(CSVec2(10.0f, 10.0f), CSVec2(20.f, 20.f));
+	srand(time(NULL));
 
 	auto world = new CSWorld();
 	for (int f1 = 0; f1 < 100; f1++)
 	{
-		auto body = CSBody::createShared(CSVec2(0.f, 0.f));
-		body->addShape(CSCircle::createShared(CSVec2(0.f, 0.f), 10.f));
+		auto body = CSBody::createShared(CSVec2(rand() % 1000, rand() % 1000));
+		body->addShape(CSCircle::createShared(CSVec2(0.f, 0.f), 5.f));
 		body->setCollisionGroup(0);
 		world->addBody(body);
 	}
 
-
-	for (int f2 = 0; f2 < 100; f2++)
+	auto callback = CSHitCallback::createShared(0, 0);
+	int hit = 0;
+	callback->HitBegin = [&](const std::shared_ptr<CSBody>& bodyA, const std::shared_ptr<CSBody>& bodyB)
 	{
-		auto body2 = CSBody::createShared(CSVec2(0.f, 0.f));
-		body2->addShape(CSCircle::createShared(CSVec2(0.f, 0.f), 10.f));
-		body2->setCollisionGroup(1);
-		world->addBody(body2);
-	}
-
-	auto callback = CSHitCallback::createShared(0, 1);
-	callback->HitBegin = [](const std::shared_ptr<CSBody>& bodyA, const std::shared_ptr<CSBody>& bodyB)
-	{
+		hit++;
 	};
 
 	world->addHitCallback(callback);
 
-	auto start = chrono::system_clock::now();
+	long long sum = 0;
+	for (int f1 = 0; f1 < 50; f1++)
+	{
+		auto start = chrono::system_clock::now();
+		world->executeCollision();
+		auto end = chrono::system_clock::now();
+		sum += std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+		cout << "time:" << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << "[ms]" << endl;
+	}
+	cout << "ave:"<<sum/50.f<<"[ms]" << endl;
 
-	world->executeCollision();
-
-	auto end = chrono::system_clock::now();
-
-	cout << "time:" << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count()<<"[ms]"<< endl;
-
-	aabb2.dump();
-
-	cout << aabb1.isIntersect(aabb2) << endl;
-
-	aabb2.setCenterPosition(CSVec2(10.f, 10.f));
-	aabb2.dump();
-
-	cout << aabb1.isIntersect(aabb2) << endl;
+	cout << "hit:" << hit/10 << endl;
 
 	cout << "ƒvƒƒOƒ‰ƒ€I—¹" << endl;
+
 
 	fflush(stdin);
 	getchar();
